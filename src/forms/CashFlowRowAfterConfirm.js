@@ -1,33 +1,39 @@
+// REACT COMPONENTS
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 
+// PROJECT COMPONENTS
 import { CashFlowRow } from './formHelpers';
+
+// ========================================
+// COMPONENTS
+// ========================================
 
 const IncomeField = (props) => (
   <CashFlowRow {...props} type={'income'} />
-);
+); //end IncomeField()
 
 /**
  * Query the user before presenting a CashFlowRow
- * 
+ *
  * @param {object} props
  * @param {string} props.generic - The key of the value being set.
  * @param {string} props.confirmLabel - Label for preceding confirmation.
  * @param {string} props.children - Label for fields updating the value.
- * 
+ *
  * @extends React.Component
  * @see CashFlowRow
  */
 class CashFlowRowAfterConfirm extends React.Component {
   constructor(props) {
     super(props);
-    
+
     const value = props.timeState[props.generic];
     this.state = {
       showField: value !== 0,
       storedValue: value
     }
-  }
+  }; // end of constructor()
 
   handleChange = (evt, inputProps) => {
     if(inputProps.value === 'Yes') {
@@ -35,7 +41,7 @@ class CashFlowRowAfterConfirm extends React.Component {
     } else {
       this.hideField(evt);
     }
-  }
+  }; // end of handleChange()
 
   hideField(evt) {
     const { generic, setClientProperty, timeState } = this.props;
@@ -49,7 +55,7 @@ class CashFlowRowAfterConfirm extends React.Component {
       name: generic,
       value: 0
     });
-  }
+  }; // end of hideField()
 
   showField(evt) {
     const { generic, setClientProperty } = this.props;
@@ -63,7 +69,7 @@ class CashFlowRowAfterConfirm extends React.Component {
     this.setState({
       showField: true
     });
-  }
+  }; // end of showField()
 
   render() {
     const { confirmLabel, ...rest } = this.props;
@@ -76,11 +82,12 @@ class CashFlowRowAfterConfirm extends React.Component {
           <Form.Radio label={'Yes'} value={'Yes'} checked={showField} onChange={this.handleChange} />
           <Form.Radio label={'No'} value={'No'} checked={!showField} onChange={this.handleChange} />
         </Form.Group>
-        
+
         {showField && <IncomeField {...rest} />}
       </div>
     );
-  }
-}
+  } // End render()
+
+}; // End CashFlowRowAfterConfirm
 
 export default CashFlowRowAfterConfirm;
